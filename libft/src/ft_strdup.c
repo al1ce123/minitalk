@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_str.c                                     :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlence-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/28 19:45:06 by nlence-l          #+#    #+#             */
-/*   Updated: 2023/03/03 17:27:45 by nlence-l         ###   ########.fr       */
+/*   Created: 2022/11/03 19:11:30 by nlence-l          #+#    #+#             */
+/*   Updated: 2022/12/13 17:26:06 by nlence-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libft.h"
 
-int	ft_print_str(char *str)
+char	*ft_strdup(char *s1)
 {
-	int	i;
-	int	x;
+	int		i;
+	char	*copy;
 
 	i = 0;
-	x = 0;
-	if (!str)
-		return (write(1, "(null)", 6));
-	while (str[i])
+	copy = malloc(sizeof(char) * ft_strlen(s1) + 1);
+	if (!copy)
+		return (0);
+	while (s1[i])
 	{
-		x = write(1, &str[i++], 1);
-		if (x == -1)
-			return (-1);
+		copy[i] = s1[i];
+		i++;
 	}
-	return (i);
+	copy[i] = 0;
+	return (copy);
 }

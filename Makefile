@@ -1,6 +1,6 @@
 NAME = minitalk
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Iinc
+CFLAGS = -Wall -Wextra -Werror -Iinc -fsanitize=address
 
 all: $(NAME)
 

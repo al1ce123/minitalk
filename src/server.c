@@ -1,27 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nlence-l <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 15:19:57 by nlence-l          #+#    #+#             */
-/*   Updated: 2023/05/18 16:21:38 by nlence-l         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../inc/minitalk.h"
-#include "../libft/inc/libft.h"
-
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
 
 char	*add_c_to_str(char *str, char c)
 {
@@ -60,12 +37,13 @@ char	*print_and_free(char *str)
 	return (NULL);
 }
 
-void	ft_handler(int signal)
+void	ft_handler(int signal, siginfo_t *info, void *s)
 {
 	static int	i;
 	static char	c;
 	static char	*str = NULL;
 
+	(void)s;
 	if (signal == SIGUSR1)
 		c = c | (0x01 << i);
 	i++;
@@ -74,6 +52,7 @@ void	ft_handler(int signal)
 		if (c == '\0')
 		{
 			str = print_and_free(str);
+			kill(info->si_pid, SIGUSR1);
 		}
 		else
 		{
@@ -86,10 +65,14 @@ void	ft_handler(int signal)
 
 int	main(void)
 {
-	signal(SIGUSR1, &ft_handler);
-	signal(SIGUSR2, &ft_handler);
-	ft_printf("PID: %d\n", getpid());
-	while (1)
+	struct sigaction	sa;
+
+	ft_printf("PID: \033[33m%d\033[0m\n", getpid());
+	sa.sa_sigaction = ft_handler;
+	sa.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &sa, 0);
+	sigaction(SIGUSR2, &sa, 0);
+	while (42)
 		pause();
 	return (0);
 }

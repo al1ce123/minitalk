@@ -1,44 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_u.c                                       :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlence-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/28 19:45:35 by nlence-l          #+#    #+#             */
-/*   Updated: 2023/03/03 17:28:21 by nlence-l         ###   ########.fr       */
+/*   Created: 2022/11/02 19:17:30 by nlence-l          #+#    #+#             */
+/*   Updated: 2022/11/10 17:44:14 by nlence-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libft.h"
 
-int	ft_ulen(unsigned int n)
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize)
 {
-	int	res;
+	size_t	i;
+	size_t	len;
 
-	res = 1;
-	while (n / 10 != 0)
+	len = ft_strlen(src);
+	i = 0;
+	if (dstsize == 0)
+		return (len);
+	while (src[i] && i < dstsize - 1)
 	{
-		n /= 10;
-		res *= 10;
+		dst[i] = src[i];
+		i++;
 	}
-	return (res);
-}
-
-int	ft_print_u(unsigned int n)
-{
-	int	len;
-	int	res;
-
-	len = ft_ulen(n);
-	res = 0;
-	while (len != 0)
-	{
-		res += ft_print_char(n / len + '0');
-		if (res == -1)
-			return (-1);
-		n = n % len;
-		len = len / 10;
-	}
-	return (res);
+	dst[i] = '\0';
+	return (len);
 }

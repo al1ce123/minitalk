@@ -1,40 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlence-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/28 19:46:20 by nlence-l          #+#    #+#             */
-/*   Updated: 2023/03/03 17:28:47 by nlence-l         ###   ########.fr       */
+/*   Created: 2022/11/03 19:31:15 by nlence-l          #+#    #+#             */
+/*   Updated: 2022/12/14 19:50:45 by nlence-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libft.h"
 
-int	ft_printf(const char *format, ...)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	va_list	args;
-	int		len;
-	int		i;
+	unsigned int	i;
+	unsigned char	*cs1;
+	unsigned char	*cs2;
 
-	if (format == NULL)
-		return (0);
-	len = 0;
-	va_start(args, format);
 	i = 0;
-	while (format[i])
+	cs1 = (unsigned char *)s1;
+	cs2 = (unsigned char *)s2;
+	if (n == 0)
+		return (0);
+	while (i < n)
 	{
-		if (format[i] == '%')
-		{
-			len += ft_parser(args, format[++i]);
+		if (cs1[i] == cs2[i])
 			i++;
-		}
 		else
-			len += ft_print_char(format[i++]);
-		if (len == -1)
-			return (-1);
+			return (cs1[i] - cs2[i]);
 	}
-	va_end(args);
-	return (len);
+	return (0);
 }

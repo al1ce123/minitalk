@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nlence-l <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 15:19:44 by nlence-l          #+#    #+#             */
-/*   Updated: 2023/05/18 17:30:01 by nlence-l         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../inc/minitalk.h"
-#include "../libft/inc/libft.h"
 
 int	ft_atoi(char *str)
 {
@@ -51,21 +38,35 @@ void	ft_sender(int pid, char c)
 	}
 }
 
+void	ft_handler2(int pid)
+{
+	if (pid == SIGUSR1)
+	{
+		ft_printf("[+] Server: \033[32mMessage received\033[0m\n");
+		exit(EXIT_SUCCESS);
+	}
+	exit(EXIT_FAILURE);
+}
+
 int	main(int ac, char **av)
 {
 	int	i;
-	int	pid;
+	int	pid_server;
 
 	i = 0;
 	if (ac == 3)
 	{	
-		pid = ft_atoi(av[1]);
+		signal(SIGUSR1, ft_handler2);
+		signal(SIGUSR2, ft_handler2);
+		pid_server = ft_atoi(av[1]);
 		while (av[2][i] != '\0')
 		{
-			ft_sender(pid, av[2][i]);
+			ft_sender(pid_server, av[2][i]);
 			i++;
 		}
-		ft_sender(pid, '\0');
+		ft_sender(pid_server, '\0');
+		while (42)
+			pause();
 	}
 	else
 	{

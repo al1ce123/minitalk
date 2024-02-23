@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_percent.c                                 :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlence-l <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/28 19:44:36 by nlence-l          #+#    #+#             */
-/*   Updated: 2023/03/07 18:31:45 by nlence-l         ###   ########.fr       */
+/*   Created: 2022/11/02 19:38:50 by nlence-l          #+#    #+#             */
+/*   Updated: 2022/12/13 17:22:56 by nlence-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libft.h"
 
-int	ft_print_percent(void)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int	x;
+	size_t	i;
 
-	x = ft_print_char('%');
-	return (x);
+	i = 0;
+	while ((s1[i] || s2[i]) && i < n)
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return (0);
 }
