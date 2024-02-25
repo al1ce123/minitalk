@@ -1,23 +1,37 @@
-NAME = minitalk
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Iinc -fsanitize=address
+CFLAGS = -Wall -Wextra -g
+
+NAME = minitalk
+SRCDIR = src/
+SRC = server.c client.c
+SRCS = $(addprefix $(SRCDIR),$(SRC))
+OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME):
-	$(MAKE) -s -C ./libft
-	$(CC) $(CFLAGS) src/client.c -o client -L./libft -lft
-	$(CC) $(CFLAGS) src/server.c -o server -L./libft -lft
+server: $(OBJS)
+	$(MAKE) -C libft
+	$(CC) $(CFLAGS) $(SRCDIR)server.o -o server -L./libft -lft
+
+client: $(OBJS)
+	$(CC) $(CFLAGS) $(SRCDIR)client.o -o client -L./libft -lft
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(NAME): server client
 
 clean:
-	$(MAKE) -s clean -C ./libft
+	rm -rf $(OBJS)
+	$(MAKE) -C libft clean
 
-fclean:
-	rm -f client server
-	$(MAKE) -s fclean -C ./libft
+fclean: clean
+	rm -rf server client
+	$(MAKE) -C libft fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all re clean fclean
+
 
 

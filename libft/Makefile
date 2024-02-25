@@ -12,7 +12,7 @@
 
 NAME 		= libft.a
 
-CFLAGS 		= -Wall -Wextra -Werror -Iinc
+CFLAGS 		= -Wall -Wextra -Werror -Iinc -g
 
 SRC_GNL 	= get_next_line.c get_next_line_utils.c
 
