@@ -6,20 +6,18 @@
 /*   By: nlence-l <nlence-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 12:57:48 by nlence-l          #+#    #+#             */
-/*   Updated: 2024/02/25 13:52:48 by nlence-l         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:29:43 by nlence-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minitalk.h"
 
-char	*add_c_to_str(char *str, char c)
-{
+char *add_c_to_str(char *str, char c) {
 	char	*new;
 	int		i;
 
 	i = 0;
-	if (!str)
-	{
+	if (!str) {
 		new = (char *)malloc(sizeof(char) * 2);
 		if (!new)
 			return (NULL);
@@ -28,10 +26,11 @@ char	*add_c_to_str(char *str, char c)
 		return (new);
 	}
 	new = (char *)malloc(sizeof(char) * (ft_strlen(str) + 2));
-	if (!new)
+	if (!new) {
+		free(str);
 		return (NULL);
-	while (str[i])
-	{
+	}
+	while (str[i]) {
 		new[i] = str[i];
 		i++;
 	}
@@ -41,7 +40,7 @@ char	*add_c_to_str(char *str, char c)
 	return (new);
 }
 
-char	*print_and_free(char *str)
+char *print_and_free(char *str)
 {
 	if (str)
 		ft_printf("%s\n", str);
@@ -49,7 +48,7 @@ char	*print_and_free(char *str)
 	return (NULL);
 }
 
-void	ft_handler(int signal, siginfo_t *info, void *s)
+void ft_handler(int signal, siginfo_t *info, void *s)
 {
 	static int	i;
 	static char	c;
@@ -59,17 +58,13 @@ void	ft_handler(int signal, siginfo_t *info, void *s)
 	if (signal == SIGUSR1)
 		c = c | (0x01 << i);
 	i++;
-	if (i == 8)
-	{
-		if (c == '\0')
-		{
+	if (i == 8) {
+		if (c == '\0') {
 			str = print_and_free(str);
 			kill(info->si_pid, SIGUSR1);
 		}
 		else
-		{
 			str = add_c_to_str(str, c);
-		}
 		i = 0;
 		c = 0;
 	}
