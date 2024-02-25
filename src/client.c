@@ -6,7 +6,7 @@
 /*   By: nlence-l <nlence-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 12:57:41 by nlence-l          #+#    #+#             */
-/*   Updated: 2024/02/25 16:30:22 by nlence-l         ###   ########.fr       */
+/*   Updated: 2024/02/25 19:06:14 by nlence-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ void ft_sender(int pid, char c)
 	int	i;
 
 	i = 0;
+	if (kill(pid, 0) == -1) {
+		ft_printf("[+] Error: \033[31mThis PID doesn't exist\n\033[0m");
+		exit(EXIT_FAILURE);
+	}
 	while (i < 8) {
 		if ((c & (0x01 << i)) != 0)
 			kill(pid, SIGUSR1);
